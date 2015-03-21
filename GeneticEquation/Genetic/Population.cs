@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GeneticEquation.Utility;
 
 namespace GeneticEquation.Genetic
@@ -10,7 +8,7 @@ namespace GeneticEquation.Genetic
 
     public class Population
     {
-        public List<Chromosome> Chromosomes { get; set; }
+        public List<EquationChromosome> Chromosomes { get; set; }
         public int GeneCount { get; set; }
         public int TargetValue { get; set; }
         public double MutationRate { get; set; }
@@ -23,10 +21,10 @@ namespace GeneticEquation.Genetic
             MutationRate = mutationRate;
             TargetValue = target;
             GeneCount = geneCount;
-            Chromosomes = new List<Chromosome>();
+            Chromosomes = new List<EquationChromosome>();
             for (var i = 0; i < count; i++)
             {
-                var c = new Chromosome(geneCount);
+                var c = new EquationChromosome(geneCount);
                 for (var j = 0; j < geneCount; j++)
                     c.Genes[j] = (Gene)(_random.Next() % (int)Gene.Divide);
                 //{
@@ -53,7 +51,7 @@ namespace GeneticEquation.Genetic
             ScoreEm();
         }
 
-        private double CalculateFitness(Chromosome c, int target)
+        private double CalculateFitness(EquationChromosome c, int target)
         {
             return 1 / Math.Abs(target - c.ChromosomeValue);
         }
@@ -64,10 +62,10 @@ namespace GeneticEquation.Genetic
                 c.Fitness = CalculateFitness(c, TargetValue);
         }
 
-        private List<Chromosome> SelectBreeders()
+        private List<EquationChromosome> SelectBreeders()
         {
-            var startingPopulation = new List<Chromosome>(Chromosomes);
-            var selected = new List<Chromosome>();
+            var startingPopulation = new List<EquationChromosome>(Chromosomes);
+            var selected = new List<EquationChromosome>();
             var numToSelect = startingPopulation.Count / 2;
 
             startingPopulation.Shuffle();
@@ -90,14 +88,14 @@ namespace GeneticEquation.Genetic
             return selected;
         }
 
-        private List<Chromosome> Breed(List<Chromosome> parents)
+        private List<EquationChromosome> Breed(List<EquationChromosome> parents)
         {
             parents.Shuffle();
-            var children = new List<Chromosome>();
+            var children = new List<EquationChromosome>();
             for (var i = 0; i < parents.Count / 2; i++)
             {
-                Chromosome child1;
-                Chromosome child2;
+                EquationChromosome child1;
+                EquationChromosome child2;
 
                 Breed(parents[i * 2], parents[i * 2 + 1], out child1, out child2);
                 children.Add(child1);
@@ -106,14 +104,14 @@ namespace GeneticEquation.Genetic
             return children;
         }
 
-        private void Breed(Chromosome p1, Chromosome p2, out Chromosome c1, out Chromosome c2)
+        private void Breed(EquationChromosome p1, EquationChromosome p2, out EquationChromosome c1, out EquationChromosome c2)
         {
-            c1 = new Chromosome(p1.Genes.Count());
-            c2 = new Chromosome(p1.Genes.Count());
+            c1 = new EquationChromosome(p1.Genes.Count());
+            c2 = new EquationChromosome(p1.Genes.Count());
 
             for (var i = 0; i < p1.Genes.Count(); i++)
             {
-                if (i < p1.Genes.Count() * 3 / 4)
+                if (i < p1.Genes.Count() / 2)
                 {
                     c1.Genes[i] = p1.Genes[i];
                     c2.Genes[i] = p2.Genes[i];
@@ -126,7 +124,7 @@ namespace GeneticEquation.Genetic
             }
         }
 
-        private void Mutate(List<Chromosome> population)
+        private void Mutate(List<EquationChromosome> population)
         {
             foreach (var c in population)
                 for (var i = 0; i < c.Genes.Count(); i++)

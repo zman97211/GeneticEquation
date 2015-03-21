@@ -1,32 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Text;
-using GeneticEquation.Genetic;
 using MoreLinq;
 
-/*
- * 
- * Genes: Binary encoded in this order: 0 1 2 3 4 5 6 7 8 9 + - * /
- * 
- * Chromosome: We'll start with 9 genes. It looks like this should always be odd.
- * 
- */
-
-namespace GeneticEquation
+namespace GeneticEquation.Genetic
 {
     internal class Program
     {
         private static void Main()
         {
-            var target = 123456;
+            const int target = 4100;
 
             var logFilename = string.Format(@"c:\Users\steve\Desktop\logs\GenRun-{0:yyyy-MM-dd_hh-mm-ss-tt}.csv",
                 DateTime.Now);
 
-            var p = new Population(target, 140, 15, 0.2);
+            var p = new Population(target, 160, 9, 0.3);
             var generation = 0;
             Stopwatch sw = new Stopwatch();
             while (!p.Chromosomes.Any(c => double.IsInfinity(c.Fitness)))
@@ -36,7 +25,7 @@ namespace GeneticEquation
                 {
                     File.AppendAllText(logFilename, string.Format("{0},{1},{2},{3},{4}\n", generation, best,
                         best.ChromosomeValue, target, best.ChromosomeValue - target));
-                    Console.WriteLine("[{5}] {0}: {1} Value: {2} Target: {3} Error: {4}", generation, best,
+                    Console.WriteLine("[{5}] {0}: Value: {2} Target: {3} Error: {4}", generation, best,
                         best.ChromosomeValue, target, best.ChromosomeValue - target, sw.Elapsed);
                 }
                 sw.Reset();

@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Genetic\Chromosome.cs" />
+    <Compile Include="Genetic\EquationChromosome.cs" />
     <Compile Include="Genetic\Population.cs" />
     <Compile Include="Utility\ListExtensions.cs" />
     <Compile Include="Utility\MoreEnumerable.cs" />
