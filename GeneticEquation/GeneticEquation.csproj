@@ -41,8 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MoreEnumerable.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Genetic\Chromosome.cs" />
+    <Compile Include="Genetic\Population.cs" />
+    <Compile Include="Utility\ListExtensions.cs" />
+    <Compile Include="Utility\MoreEnumerable.cs" />
+    <Compile Include="Genetic\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
