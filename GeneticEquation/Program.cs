@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using MoreLinq;
 
 /*
@@ -17,17 +15,17 @@ using MoreLinq;
 
 namespace GeneticEquation
 {
-    static public partial class ListExtensions
+    public static class ListExtensions
     {
         public static void Shuffle<T>(this IList<T> list)
         {
-            Random rng = new Random();
-            int n = list.Count;
+            var rng = new Random();
+            var n = list.Count;
             while (n > 1)
             {
                 n--;
-                int k = rng.Next(n + 1);
-                T value = list[k];
+                var k = rng.Next(n + 1);
+                var value = list[k];
                 list[k] = list[n];
                 list[n] = value;
             }
@@ -54,19 +52,13 @@ namespace GeneticEquation
 
     public class Chromosome
     {
-        private Gene[] _genes;
-
         public double Fitness { get; set; }
 
-        public Gene[] Genes
-        {
-            get { return _genes; } 
-            set { _genes = value; }
-        }
+        public Gene[] Genes { get; set; }
 
         public Chromosome(int numGenes)
         {
-            _genes = new Gene[numGenes];
+            Genes = new Gene[numGenes];
         }
 
         public double ChromosomeValue
@@ -87,22 +79,22 @@ namespace GeneticEquation
                         switch (currentOperator)
                         {
                             case Gene.Add:
-                                value += (int) g;
+                                value += (int)g;
                                 findingNumber = false;
                                 break;
                             case Gene.Subtract:
-                                value -= (int) g;
+                                value -= (int)g;
                                 findingNumber = false;
                                 break;
                             case Gene.Multiply:
-                                value *= (int) g;
+                                value *= (int)g;
                                 findingNumber = false;
                                 break;
                             case Gene.Divide:
                                 if (g != Gene.Zero)
                                 {
                                     findingNumber = false;
-                                    value /= (int) g;
+                                    value /= (int)g;
                                 }
                                 break;
                             default:
@@ -118,7 +110,7 @@ namespace GeneticEquation
                         findingNumber = true;
                     }
                 }
-                
+
                 return value;
             }
         }
@@ -197,10 +189,10 @@ namespace GeneticEquation
                 for (var j = 0; j < geneCount; j++)
                     c.Genes[j] = (Gene)(_random.Next() % (int)Gene.Divide);
                 //{
-                    //if (j%2 == 0)
-                        //c.Genes[j] = (Gene) (_random.Next()%10);
-                    //else
-                        //c.Genes[j] = (Gene) (10 + _random.Next()%4);
+                //if (j%2 == 0)
+                //c.Genes[j] = (Gene) (_random.Next()%10);
+                //else
+                //c.Genes[j] = (Gene) (10 + _random.Next()%4);
                 //}
                 Chromosomes.Add(c);
             }
@@ -209,7 +201,7 @@ namespace GeneticEquation
 
         public void NextGen()
         {
-            var parents = SelectBreeders(0.5);
+            var parents = SelectBreeders();
             var children = Breed(parents);
             Mutate(children);
             Chromosomes.Clear();
@@ -217,9 +209,10 @@ namespace GeneticEquation
             Chromosomes.AddRange(children);
             ScoreEm();
         }
+
         private double CalculateFitness(Chromosome c, int target)
         {
-            return  1 / Math.Abs(target - c.ChromosomeValue);
+            return 1 / Math.Abs(target - c.ChromosomeValue);
         }
 
         public void ScoreEm()
@@ -228,7 +221,7 @@ namespace GeneticEquation
                 c.Fitness = CalculateFitness(c, TargetValue);
         }
 
-        private List<Chromosome> SelectBreeders(double percentOfPopulation)
+        private List<Chromosome> SelectBreeders()
         {
             var startingPopulation = new List<Chromosome>(Chromosomes);
             var selected = new List<Chromosome>();
@@ -237,9 +230,6 @@ namespace GeneticEquation
             startingPopulation.Shuffle();
             while (selected.Count < numToSelect)
             {
-                var tmp1 = startingPopulation.GroupBy(c => c.Fitness);
-                var tmp2 = tmp1.Select(g => g.First().Fitness);
-           
                 var slice = _random.NextDouble() * startingPopulation.Sum(c => c.Fitness);
                 var totalSoFar = 0.0;
                 foreach (var c in startingPopulation)
@@ -261,7 +251,7 @@ namespace GeneticEquation
         {
             parents.Shuffle();
             var children = new List<Chromosome>();
-            for (int i = 0; i < parents.Count / 2; i++)
+            for (var i = 0; i < parents.Count / 2; i++)
             {
                 Chromosome child1;
                 Chromosome child2;
@@ -272,14 +262,15 @@ namespace GeneticEquation
             }
             return children;
         }
+
         private void Breed(Chromosome p1, Chromosome p2, out Chromosome c1, out Chromosome c2)
         {
             c1 = new Chromosome(p1.Genes.Count());
             c2 = new Chromosome(p1.Genes.Count());
 
-            for (int i = 0; i < p1.Genes.Count(); i++)
+            for (var i = 0; i < p1.Genes.Count(); i++)
             {
-                if (i < p1.Genes.Count()*3/4)
+                if (i < p1.Genes.Count() * 3 / 4)
                 {
                     c1.Genes[i] = p1.Genes[i];
                     c2.Genes[i] = p2.Genes[i];
@@ -295,32 +286,32 @@ namespace GeneticEquation
         private void Mutate(List<Chromosome> population)
         {
             foreach (var c in population)
-                for (int i = 0; i < c.Genes.Count(); i++)
+                for (var i = 0; i < c.Genes.Count(); i++)
                     if (_random.NextDouble() < MutationRate)
-                        c.Genes[i] = (Gene) (_random.Next()%(int) Gene.Divide);
+                        c.Genes[i] = (Gene)(_random.Next() % (int)Gene.Divide);
         }
     }
 
 
-
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
-            int target = 1564583;
+            var target = 123456;
 
-            string log_filename = string.Format(@"c:\Users\steve\Desktop\logs\GenRun-{0:yyyy-MM-dd_hh-mm-ss-tt}.csv", DateTime.Now);
+            var logFilename = string.Format(@"c:\Users\steve\Desktop\logs\GenRun-{0:yyyy-MM-dd_hh-mm-ss-tt}.csv",
+                DateTime.Now);
 
-            var p = new Population(target, 160, 27, 0.05);
-            int generation = 0;
+            var p = new Population(target, 140, 13, 0.1);
+            var generation = 0;
             while (!p.Chromosomes.Any(c => double.IsInfinity(c.Fitness)))
             {
                 var best = p.Chromosomes.MaxBy(c => c.Fitness);
-                if (generation%500 == 0)
+                if (generation % 500 == 0)
                 {
-                    File.AppendAllText(log_filename, string.Format("{0},{1},{2},{3},{4}\n", generation, best.ToString(),
+                    File.AppendAllText(logFilename, string.Format("{0},{1},{2},{3},{4}\n", generation, best,
                         best.ChromosomeValue, target, best.ChromosomeValue - target));
-                    Console.WriteLine("{0}: {1} Value: {2} Target: {3} Error: {4}", generation, best.ToString(),
+                    Console.WriteLine("{0}: {1} Value: {2} Target: {3} Error: {4}", generation, best,
                         best.ChromosomeValue, target, best.ChromosomeValue - target);
                 }
                 p.NextGen();
@@ -329,13 +320,13 @@ namespace GeneticEquation
 
             var solution = p.Chromosomes.First(c => double.IsInfinity(c.Fitness));
             Console.WriteLine();
-            File.AppendAllText(log_filename,
-                string.Format("{0},{1},{2},{3},{4}\n", generation, solution.ToString(), solution.ChromosomeValue, target,
+            File.AppendAllText(logFilename,
+                string.Format("{0},{1},{2},{3},{4}\n", generation, solution, solution.ChromosomeValue, target,
                     solution.ChromosomeValue - target));
-            Console.WriteLine("*** SOLUTION: Generation: {0} Best fitness: {1} {2} = {3}", generation, solution.Fitness, solution.ToString(), solution.ChromosomeValue);
+            Console.WriteLine("*** SOLUTION: Generation: {0} Best fitness: {1} {2} = {3}", generation, solution.Fitness,
+                solution, solution.ChromosomeValue);
             Console.Write("Press enter to quit...");
             Console.ReadLine();
         }
-
     }
 }
