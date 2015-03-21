@@ -1,0 +1,42 @@
+*** SOLUTION: Generation: 27291 Best fitness: Infinity EightMultiplyFourMultiply
+EightMultiplyEightAddNineMultiplyNineAddSevenMultiplySixSubtractNineMultiplyNine
+ = 999999
+
+
+8 * 4 * 8 * 8 + 9 * 9 + 7 * 6 - 9 * 9 = 999999
+
+
+
+*** SOLUTION: Generation: 49638 Best fitness: Infinity SevenMultiplySevenMultipl
+yNineThreeOneMultiplySixMultiplySevenSubtractThreeMultiplySixSubtractThreeMultip
+lyNine = 999999
+
+7 * 7 * 9 * 6 * 7 - 3 * 6 - 3 * 9 = 999999
+
+
+*** SOLUTION: Generation: 64244 Best fitness: Infinity SixMultiplyNineMultiplySeven
+FourThreeThreeFiveMultiplySixMultiplySevenSubtractThreeMultiplySevenMultiplyNine = 999999
+
+6 * 9 * 7 * 6 * 7 - 3 * 7 * 9
+
+
+
+*** SOLUTION: Generation: 72509 Best fitness: Infinity SevenSixMultiplySixThreeM
+ultiplyNineMultiplySevenMultiplySubtractMultiplySixSubtractThreeMultiplyNineMult
+iplySeven = 999999
+
+7 * 6 * 9 * 7 * 6 - 3 * 9 * 7
+
+*** SOLUTION: Generation: 689440 Best fitness: Infinity SixMultiplyNineMultiplyM
+ultiplyAddSevenMultiplySevenMultiplySixFourFiveSubtractThreeMultiplySevenMultipl
+yNine = 999999
+
+6 * 9 * 7 * 7 * 6 - 3 * 7 * 9
+
+
+*** SOLUTION: Generation: 127840 Best fitness: Infinity SixMultiplyNineMultiplySeven
+SubtractSixMultiplyEightMultiplyMultiplySixMultiplyEightAddNineMultiplyAddSeven = 999999
+
+
+6 * 9 * 7 - 6 * 8 * 6 * 8 + 9 * 7
+
