@@ -45,6 +45,8 @@ namespace GeneticEquation.Genetic
             var parents = SelectBreeders();
             var children = Breed(parents);
             Mutate(children);
+            foreach (var child in children)
+                child.Recalculate();
             Chromosomes.Clear();
             Chromosomes.AddRange(parents);
             Chromosomes.AddRange(children);

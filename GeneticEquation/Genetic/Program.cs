@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using GeneticEquation.Genetic;
@@ -16,11 +17,6 @@ using MoreLinq;
 
 namespace GeneticEquation
 {
-
-
-
-
-
     internal class Program
     {
         private static void Main()
@@ -32,6 +28,7 @@ namespace GeneticEquation
 
             var p = new Population(target, 140, 15, 0.2);
             var generation = 0;
+            Stopwatch sw = new Stopwatch();
             while (!p.Chromosomes.Any(c => double.IsInfinity(c.Fitness)))
             {
                 var best = p.Chromosomes.MaxBy(c => c.Fitness);
@@ -39,10 +36,13 @@ namespace GeneticEquation
                 {
                     File.AppendAllText(logFilename, string.Format("{0},{1},{2},{3},{4}\n", generation, best,
                         best.ChromosomeValue, target, best.ChromosomeValue - target));
-                    Console.WriteLine("{0}: {1} Value: {2} Target: {3} Error: {4}", generation, best,
-                        best.ChromosomeValue, target, best.ChromosomeValue - target);
+                    Console.WriteLine("[{5}] {0}: {1} Value: {2} Target: {3} Error: {4}", generation, best,
+                        best.ChromosomeValue, target, best.ChromosomeValue - target, sw.Elapsed);
                 }
+                sw.Reset();
+                sw.Start();
                 p.NextGen();
+                sw.Stop();
                 generation++;
             }
 
