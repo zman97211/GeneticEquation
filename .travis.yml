@@ -1,8 +1,2 @@
-language: c
- 
-install:
-  - sudo apt-get install mono-devel
-#  - mozroots --import --sync
- 
-script:
-  - xbuild ./src/GeneticEquation.sln
+language: csharp
+solution: GeneticEquation.sln
