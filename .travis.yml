@@ -1,8 +1,8 @@
 language: c
  
 install:
-  - sudo apt-get install mono-devel mono-gmcs nunit-console gtk-sharp2
-  - mozroots --import --sync
+  - sudo apt-get install mono-devel
+#  - mozroots --import --sync
  
 script:
   - xbuild ./src/GeneticEquation.sln
