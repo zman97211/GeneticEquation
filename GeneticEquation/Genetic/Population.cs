@@ -96,7 +96,7 @@ namespace GeneticEquation.Genetic
             {
                 EquationChromosome child1;
                 EquationChromosome child2;
-
+                
                 Breed(parents[i * 2], parents[i * 2 + 1], out child1, out child2);
                 children.Add(child1);
                 children.Add(child2);
@@ -109,9 +109,11 @@ namespace GeneticEquation.Genetic
             c1 = new EquationChromosome(p1.Genes.Count());
             c2 = new EquationChromosome(p1.Genes.Count());
 
+            int crossoverPoint = _random.Next(p1.Genes.Length / 3) + p1.Genes.Length / 3;
+
             for (var i = 0; i < p1.Genes.Count(); i++)
             {
-                if (i < p1.Genes.Count() / 2)
+                if (i < crossoverPoint)
                 {
                     c1.Genes[i] = p1.Genes[i];
                     c2.Genes[i] = p2.Genes[i];
